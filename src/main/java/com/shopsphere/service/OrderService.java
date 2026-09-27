@@ -13,6 +13,7 @@ public interface OrderService {
     List<OrderItemResponse> getOrderItems(Long orderId);
     void cancelOrder(Long orderId, Long userId);
 
-    //Server Order
+    void updateOrderStatus(Long orderId, String status);
+    List<OrderResponse> getAllOrders();
 
 }

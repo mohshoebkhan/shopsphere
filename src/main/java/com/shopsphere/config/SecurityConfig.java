@@ -68,7 +68,18 @@ public class SecurityConfig {
                                 "/api/products/**"
                         ).permitAll()
 
-                        // Everything else requires JWT
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/orders/admin/all"
+                        )
+                        .hasAuthority("ADMIN")
+                        // ADMIN ONLY - Update Order Status
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/orders/*/status"
+                        ).hasAuthority("ADMIN")
+
+                        // All other APIs require login
                         .anyRequest().authenticated()
                 );
 

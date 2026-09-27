@@ -192,4 +192,68 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    @Override
+    public void updateOrderStatus(Long orderId, String status) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new RuntimeException("Order not found"));
+
+        String newStatus = status.trim().toUpperCase();
+
+        switch (newStatus) {
+
+            case "PLACED":
+            case "CONFIRMED":
+            case "PROCESSING":
+            case "SHIPPED":
+            case "DELIVERED":
+            case "CANCELLED":
+                break;
+
+            default:
+                throw new RuntimeException(
+                        "Invalid order status: " + status
+                );
+        }
+
+        if ("CANCELLED".equalsIgnoreCase(order.getStatus())) {
+            throw new RuntimeException(
+                    "Cancelled order status cannot be changed"
+            );
+        }
+
+        if ("DELIVERED".equalsIgnoreCase(order.getStatus())
+                && !"DELIVERED".equals(newStatus)) {
+
+            throw new RuntimeException(
+                    "Delivered order status cannot be changed"
+            );
+        }
+
+        order.setStatus(newStatus);
+
+        orderRepository.save(order);
+    }
+
+    @Override
+    public List<OrderResponse> getAllOrders() {
+
+        return orderRepository.findAll()
+                .stream()
+                .map(order -> OrderResponse.builder()
+                        .orderId(order.getId())
+                        .totalAmount(order.getTotalAmount())
+                        .status(order.getStatus())
+                        .orderDate(order.getOrderDate())
+                        .fullName(order.getFullName())
+                        .mobile(order.getMobile())
+                        .address(order.getAddress())
+                        .city(order.getCity())
+                        .state(order.getState())
+                        .pincode(order.getPincode())
+                        .paymentMethod(order.getPaymentMethod())
+                        .build())
+                .toList();
+    }
 }

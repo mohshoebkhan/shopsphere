@@ -24,6 +24,11 @@ public class OrderController {
         return service.placeOrder(request);
     }
 
+    @GetMapping("/admin/all")
+    public List<OrderResponse> getAllOrders() {
+        return service.getAllOrders();
+    }
+
     @GetMapping("/{userId}")
     public List<OrderResponse> getOrders(@PathVariable Long userId) {
         return service.getOrders(userId);
@@ -45,4 +50,16 @@ public class OrderController {
 
         return "Order cancelled successfully";
     }
+
+    @PutMapping("/{orderId}/status")
+    public String updateOrderStatus(
+            @PathVariable Long orderId,
+            @RequestParam String status) {
+
+        service.updateOrderStatus(orderId, status);
+
+        return "Order status updated successfully";
+    }
+
+
 }
