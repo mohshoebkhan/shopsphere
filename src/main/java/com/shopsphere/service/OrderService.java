@@ -13,4 +13,6 @@ public interface OrderService {
     List<OrderItemResponse> getOrderItems(Long orderId);
     void cancelOrder(Long orderId, Long userId);
 
+    //Server Order
+
 }
