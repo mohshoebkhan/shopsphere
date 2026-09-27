@@ -17,4 +17,5 @@ public class UserResponse {
 
     private String mobile;
 
+    private String role;
 }

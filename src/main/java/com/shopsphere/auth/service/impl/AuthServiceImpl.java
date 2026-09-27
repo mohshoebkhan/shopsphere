@@ -66,6 +66,7 @@ public class AuthServiceImpl implements AuthService {
                         .lastName(user.getLastName())
                         .email(user.getEmail())
                         .mobile(user.getMobile())
+                        .role(user.getRole())
                         .build();
 
         return new LoginResponse(
@@ -98,6 +99,7 @@ public class AuthServiceImpl implements AuthService {
                         .lastName(user.getLastName())
                         .email(user.getEmail())
                         .mobile(user.getMobile())
+                        .role(user.getRole())
                         .build();
 
         return new LoginResponse(
